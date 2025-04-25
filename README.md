@@ -68,6 +68,65 @@ npm run build
 
 ---
 
+## 🤖 Publicação automática via GitHub Actions
+
+A publicação automática acontece sempre que há um `push` na branch `main`.
+
+### 🛠 Workflow: `.github/workflows/publish.yml`
+
+```yaml
+name: Bump Version and Publish
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        token: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20.x'
+        registry-url: 'https://registry.npmjs.org'
+        
+    - name: Configure Git
+      run: |
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        
+    - name: Clean install dependencies
+      run: |
+        rm -rf node_modules package-lock.json
+        npm install
+        
+    - name: Install specific dependencies
+      run: |
+        npm install -D source-map@0.7.4
+        npm install -D tsup@latest
+        
+    - name: Build
+      run: npm run build
+            
+    - name: Publish to NPM
+      run: npm publish
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN_2 }}
+```
+
+> 🔐 Lembre-se de adicionar seu `NPM_TOKEN_2` em:  
+> `Settings > Secrets and variables > Actions`
+
+
+
 ### 3. 🧪 Teste local do Storybook
 
 Você pode rodar o Storybook localmente:
