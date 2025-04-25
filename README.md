@@ -104,7 +104,11 @@ npm publish --access public
 
 > Use `--access public` **na primeira publicação**, especialmente se for um pacote com escopo (ex: `@seunome/pacote`).
 
+O Exemplo publicado: [https://www.npmjs.com/package/@paulossjunior/storybook-example](https://www.npmjs.com/package/@paulossjunior/storybook-example)
+
 ---
+
+
 
 ## ✅ Atualizações futuras
 
@@ -134,6 +138,8 @@ npm run storybook:build
 Depois hospede o conteúdo da pasta `storybook-static`.
 
 ---
+
+
 
 ## 📎 Links úteis
 
